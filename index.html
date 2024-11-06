@@ -1,67 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Temporary Email System</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 600px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    button {
-      margin: 10px 0;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    #generated-email {
-      font-size: 18px;
-      color: blue;
-      margin-top: 10px;
-    }
-
-    #email-section {
-      margin-top: 20px;
-    }
-
-    .email-item {
-      border: 1px solid #ccc;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 5px;
-    }
-
-    h2 {
-      margin-top: 20px;
-    }
-
-    #notification {
-      color: green;
-      font-size: 16px;
-      display: none;
-      margin-bottom: 10px;
-    }
-
-    #refresh-button {
-      background-color: #4CAF50;
-      color: white;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
   <h1>Temporary Email System</h1>
 
   <button onclick="generateEmail()">Generate Temporary Email</button>
   <div id="generated-email">Temporary Email: <span id="email-alias">Not generated yet</span></div>
 
-  <!-- Notification Area -->
   <div id="notification">New email received!</div>
 
   <div id="email-section">
@@ -70,67 +20,6 @@
     <div id="emails">No emails yet. Emails will appear here.</div>
   </div>
 
-  <script>
-    let currentAlias = '';
-    let previousEmailCount = 0;
-
-    // Generate a temporary email and display it
-    async function generateEmail() {
-      const response = await fetch('http://localhost:3000/generate');
-      const data = await response.json();
-      currentAlias = data.alias;
-      document.getElementById('email-alias').innerText = currentAlias;
-
-      // Automatically fetch emails for this alias after generating
-      fetchEmails(currentAlias);
-    }
-
-    // Fetch emails for the current alias and display in the inbox section
-    async function fetchEmails(alias) {
-      const response = await fetch(`http://localhost:3000/emails/${alias}`);
-      const data = await response.json();
-      const emailSection = document.getElementById('emails');
-      emailSection.innerHTML = '';
-
-      if (data.emails.length === 0) {
-        emailSection.innerText = 'No emails yet. Emails will appear here.';
-      } else {
-        data.emails.forEach(email => {
-          const emailDiv = document.createElement('div');
-          emailDiv.className = 'email-item';
-          emailDiv.innerHTML = `<strong>Subject:</strong> ${email.subject}<br><strong>Body:</strong> ${email.body}`;
-          emailSection.appendChild(emailDiv);
-        });
-      }
-
-      // Check if new emails have arrived
-      if (data.emails.length > previousEmailCount) {
-        showNotification();
-      }
-      previousEmailCount = data.emails.length;
-    }
-
-    // Show notification for new emails
-    function showNotification() {
-      const notification = document.getElementById('notification');
-      notification.style.display = 'block';
-      setTimeout(() => {
-        notification.style.display = 'none';
-      }, 3000); // Show notification for 3 seconds
-    }
-
-    // Auto-refresh inbox every 10 seconds to check for new emails
-    setInterval(() => {
-      if (currentAlias) fetchEmails(currentAlias);
-    }, 10000); // Check every 10 seconds
-
-    // Refresh inbox manually when the button is clicked
-    function refreshInbox() {
-      if (currentAlias) {
-        fetchEmails(currentAlias);
-      }
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
-
 </html>
