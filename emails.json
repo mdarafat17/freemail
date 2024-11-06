@@ -1,0 +1,6 @@
+{
+  "example123@tempdomain.com": [
+    { "subject": "Welcome!", "body": "Thank you for using our temporary email service." },
+    { "subject": "Sample Email", "body": "This is a test email message." }
+  ]
+}
