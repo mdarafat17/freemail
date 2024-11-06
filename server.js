@@ -1,49 +1,26 @@
 const express = require('express');
+const fetch = require('node-fetch');
 const app = express();
-const cors = require('cors');
+const port = process.env.PORT || 3000;
 
-// Use CORS to allow requests from frontend
-app.use(cors());
+let generatedAlias = '';
 
-// In-memory store for emails (temporary for demonstration)
-const emailStore = {};  // Store emails by alias
+app.use(express.static('public'));
 
-// Middleware to parse JSON bodies
-app.use(express.json());
-
-// API to generate a temporary email alias
-app.get('/generate', (req, res) => {
-  const alias = `temp${Math.floor(Math.random() * 1000000)}@tempmail.com`;
-  emailStore[alias] = [];  // Initialize empty inbox for this alias
-  res.json({ alias });
+app.get('/generate', async (req, res) => {
+  const response = await fetch('https://api.mailinator.com/v2/domains/mydomain.com/emails');
+  const data = await response.json();
+  generatedAlias = data[0].address;
+  res.json({ alias: generatedAlias });
 });
 
-// API to fetch emails for a given alias
-app.get('/emails/:alias', (req, res) => {
+app.get('/emails/:alias', async (req, res) => {
   const alias = req.params.alias;
-  if (emailStore[alias]) {
-    res.json({ emails: emailStore[alias] });
-  } else {
-    res.status(404).json({ error: 'Alias not found' });
-  }
+  const response = await fetch(`https://api.mailinator.com/v2/domains/mydomain.com/emails/${alias}`);
+  const data = await response.json();
+  res.json({ emails: data });
 });
 
-// Simulate receiving an email (you can manually send an email here for testing)
-app.post('/receive-email/:alias', (req, res) => {
-  const alias = req.params.alias;
-  const { subject, body } = req.body;
-
-  if (emailStore[alias]) {
-    const newEmail = { subject, body };
-    emailStore[alias].push(newEmail);
-    res.status(200).json({ message: 'Email received' });
-  } else {
-    res.status(404).json({ error: 'Alias not found' });
-  }
-});
-
-// Start the server
-const port = 3000;
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+  console.log(`Server running on port ${port}`);
 });
