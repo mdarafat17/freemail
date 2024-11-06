@@ -7,17 +7,21 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
   <h1>Temporary Email System</h1>
+  
+  <!-- Email Generation Section -->
+  <div>
+    <button onclick="generateEmail()">Generate Temporary Email</button>
+    <p id="email-alias">Temporary Email: Not generated yet</p>
+  </div>
 
-  <button onclick="generateEmail()">Generate Temporary Email</button>
-  <div id="generated-email">Temporary Email: <span id="email-alias">Not generated yet</span></div>
-
-  <div id="notification">New email received!</div>
-
-  <div id="email-section">
-    <h2>Inbox</h2>
-    <button id="refresh-button" onclick="refreshInbox()">Refresh Inbox</button>
-    <div id="emails">No emails yet. Emails will appear here.</div>
+  <!-- Inbox Section -->
+  <div>
+    <button onclick="refreshInbox()">Refresh Inbox</button>
+    <div id="inbox">
+      <p>No emails yet.</p>
+    </div>
   </div>
 
   <script src="script.js"></script>
