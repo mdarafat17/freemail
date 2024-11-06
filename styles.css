@@ -1,8 +1,47 @@
-body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; }
-button { margin: 10px 0; padding: 10px 20px; font-size: 16px; cursor: pointer; }
-#generated-email { font-size: 18px; color: blue; margin-top: 10px; }
-#email-section { margin-top: 20px; }
-.email-item { border: 1px solid #ccc; padding: 10px; margin: 10px 0; border-radius: 5px; }
-h2 { margin-top: 20px; }
-#notification { color: green; font-size: 16px; display: none; margin-bottom: 10px; }
-#refresh-button { background-color: #4CAF50; color: white; }
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f4f9;
+}
+
+h1 {
+  text-align: center;
+}
+
+#email-alias {
+  font-size: 18px;
+  color: #333;
+  font-weight: bold;
+}
+
+#inbox {
+  margin-top: 20px;
+}
+
+#inbox ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+#inbox li {
+  padding: 10px;
+  background-color: #fff;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
